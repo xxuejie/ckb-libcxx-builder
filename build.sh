@@ -16,7 +16,7 @@ fi
 mkdir -p $INSTALL_DIR
 shasum -a 256 $LLVM_TARBALL > $INSTALL_DIR/llvm_tarball_checksum.txt
 
-LLVM_DIR=$(realpath ./llvm_src)
+LLVM_DIR="$(realpath ./llvm_src)"
 if ! [ -d llvm_src ]; then
   mkdir -p llvm_src
   cd llvm_src
@@ -47,11 +47,12 @@ cd ../..
 mkdir -p build/libcxx
 cd build/libcxx
 cmake $LLVM_DIR/libcxx \
-  -DLIBCXX_ENABLE_LOCALIZATION=OFF \
+  -DLIBCXX_HAS_MUSL_LIBC=ON \
   -DLIBCXX_INCLUDE_BENCHMARKS=OFF \
   -DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF \
   -DLIBCXX_ENABLE_SHARED=OFF \
   -DLIBCXX_ENABLE_THREADS=OFF \
+  -DCMAKE_SYSTEM_NAME="Generic" \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
   -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
