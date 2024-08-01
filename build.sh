@@ -10,7 +10,7 @@ CLANGXX="${CLANG/clang/clang++}"
 LLVM_TARBALL="llvmorg-${LLVM_VERSION}.tar.gz"
 
 if ! [ -f $LLVM_TARBALL ]; then
-  curl -LO ttps://github.com/llvm/llvm-project/archive/$LLVM_TARBALL
+  curl -LO https://github.com/llvm/llvm-project/archive/$LLVM_TARBALL
 fi
 
 mkdir -p $INSTALL_DIR
