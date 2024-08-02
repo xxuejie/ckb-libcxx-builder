@@ -38,6 +38,7 @@ cmake $LLVM_DIR/libunwind \
   -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
   -DCMAKE_CXX_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include -D_GNU_SOURCE=1" \
   -DCMAKE_ASM_FLAGS="$COMMON_FLAGS" \
+  -DCMAKE_C_COMPILER_WORKS=1 \
   -DCMAKE_CXX_COMPILER_WORKS=1 \
   -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
 make -j2
@@ -57,6 +58,7 @@ cmake $LLVM_DIR/libcxx \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
   -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
   -DCMAKE_CXX_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include -isystem $LLVM_DIR/libcxxabi/include -D_GNU_SOURCE=1" \
+  -DCMAKE_C_COMPILER_WORKS=1 \
   -DCMAKE_CXX_COMPILER_WORKS=1 \
   -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
 make -j2
@@ -73,6 +75,7 @@ cmake $LLVM_DIR/libcxxabi \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
   -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
   -DCMAKE_CXX_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $INSTALL_DIR/include/c++/v1 -isystem $INSTALL_DIR/include -isystem $MUSL/include -D_GNU_SOURCE=1" \
+  -DCMAKE_C_COMPILER_WORKS=1 \
   -DCMAKE_CXX_COMPILER_WORKS=1 \
   -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
 make -j2
