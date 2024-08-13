@@ -26,6 +26,8 @@ fi
 
 COMMON_FLAGS="-O3 -g --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs -fdata-sections -ffunction-sections"
 
+LIBUNWIND_CMAKE_OPTIONS="${LIBUNWIND_CMAKE_OPTIONS:-}"
+
 sed '/cmake_minimum_required/a project(LIBUNWIND LANGUAGES C CXX ASM)' llvm_src/libunwind/CMakeLists.txt > llvm_src/libunwind/CMakeLists.txt.patched
 mv llvm_src/libunwind/CMakeLists.txt.patched llvm_src/libunwind/CMakeLists.txt
 mkdir -p build/libunwind
@@ -33,6 +35,7 @@ cd build/libunwind
 cmake $LLVM_DIR/libunwind \
   -DLIBUNWIND_ENABLE_SHARED=OFF \
   -DLIBUNWIND_ENABLE_THREADS=OFF \
+  $LIBUNWIND_CMAKE_OPTIONS \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
   -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
@@ -45,6 +48,8 @@ make -j2
 make install
 cd ../..
 
+LIBCXX_CMAKE_OPTIONS="${LIBCXX_CMAKE_OPTIONS:-}"
+
 mkdir -p build/libcxx
 cd build/libcxx
 cmake $LLVM_DIR/libcxx \
@@ -53,6 +58,7 @@ cmake $LLVM_DIR/libcxx \
   -DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF \
   -DLIBCXX_ENABLE_SHARED=OFF \
   -DLIBCXX_ENABLE_THREADS=OFF \
+  $LIBCXX_CMAKE_OPTIONS \
   -DCMAKE_SYSTEM_NAME="Generic" \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
@@ -65,12 +71,15 @@ make -j2
 make install
 cd ../..
 
+LIBCXXABI_CMAKE_OPTIONS="${LIBCXXABI_CMAKE_OPTIONS:-}"
+
 mkdir -p build/libcxxabi
 cd build/libcxxabi
 cmake $LLVM_DIR/libcxxabi \
   -DLLVM_ENABLE_RUNTIMES=libunwind \
   -DLIBCXXABI_ENABLE_SHARED=OFF \
   -DLIBCXXABI_ENABLE_THREADS=OFF \
+  $LIBCXXABI_CMAKE_OPTIONS \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
   -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
