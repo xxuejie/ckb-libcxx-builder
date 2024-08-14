@@ -31,7 +31,7 @@ then
 fi
 
 
-COMMON_FLAGS="-O3 -g --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs -fdata-sections -ffunction-sections"
+BASE_CFLAGS="${BASE_CFLAGS:--O3 -g --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs -fdata-sections -ffunction-sections}"
 
 LIBUNWIND_CMAKE_OPTIONS="${LIBUNWIND_CMAKE_OPTIONS:-}"
 
@@ -44,9 +44,9 @@ cmake $LLVM_DIR/libunwind \
   -DLIBUNWIND_ENABLE_THREADS=OFF \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
-  -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
-  -DCMAKE_CXX_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include -D_GNU_SOURCE=1" \
-  -DCMAKE_ASM_FLAGS="$COMMON_FLAGS" \
+  -DCMAKE_C_FLAGS="$BASE_CFLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
+  -DCMAKE_CXX_FLAGS="$BASE_CFLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include -D_GNU_SOURCE=1" \
+  -DCMAKE_ASM_FLAGS="$BASE_CFLAGS" \
   -DCMAKE_C_COMPILER_WORKS=1 \
   -DCMAKE_CXX_COMPILER_WORKS=1 \
   -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
@@ -68,8 +68,8 @@ cmake $LLVM_DIR/libcxx \
   -DCMAKE_SYSTEM_NAME="Generic" \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
-  -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
-  -DCMAKE_CXX_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include -isystem $LLVM_DIR/libcxxabi/include -D_GNU_SOURCE=1" \
+  -DCMAKE_C_FLAGS="$BASE_CFLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
+  -DCMAKE_CXX_FLAGS="$BASE_CFLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include -isystem $LLVM_DIR/libcxxabi/include -D_GNU_SOURCE=1" \
   -DCMAKE_C_COMPILER_WORKS=1 \
   -DCMAKE_CXX_COMPILER_WORKS=1 \
   -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
@@ -88,8 +88,8 @@ cmake $LLVM_DIR/libcxxabi \
   -DLIBCXXABI_ENABLE_THREADS=OFF \
   -DCMAKE_C_COMPILER="$CLANG" \
   -DCMAKE_CXX_COMPILER="$CLANGXX" \
-  -DCMAKE_C_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
-  -DCMAKE_CXX_FLAGS="$COMMON_FLAGS -nostdinc --sysroot $MUSL -isystem $INSTALL_DIR/include/c++/v1 -isystem $INSTALL_DIR/include -isystem $MUSL/include -D_GNU_SOURCE=1" \
+  -DCMAKE_C_FLAGS="$BASE_CFLAGS -nostdinc --sysroot $MUSL -isystem $MUSL/include" \
+  -DCMAKE_CXX_FLAGS="$BASE_CFLAGS -nostdinc --sysroot $MUSL -isystem $INSTALL_DIR/include/c++/v1 -isystem $INSTALL_DIR/include -isystem $MUSL/include -D_GNU_SOURCE=1" \
   -DCMAKE_C_COMPILER_WORKS=1 \
   -DCMAKE_CXX_COMPILER_WORKS=1 \
   -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
