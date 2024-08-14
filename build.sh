@@ -24,6 +24,13 @@ if ! [ -d llvm_src ]; then
   cd ..
 fi
 
+if [ "x$LLVM_PATCH" != "x" ]
+then
+  cp -r $LLVM_PATCH/* $LLVM_DIR
+  echo "with patches" >> $INSTALL_DIR/llvm_tarball_checksum.txt
+fi
+
+
 COMMON_FLAGS="-O3 -g --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs -fdata-sections -ffunction-sections"
 
 LIBUNWIND_CMAKE_OPTIONS="${LIBUNWIND_CMAKE_OPTIONS:-}"
