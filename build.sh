@@ -9,15 +9,15 @@ INSTALL_DIR="$(realpath "${INSTALL_DIR:-./release}")"
 CLANGXX="${CLANG/clang/clang++}"
 LLVM_TARBALL="llvmorg-${LLVM_VERSION}.tar.gz"
 
-if ! [ -f $LLVM_TARBALL ]; then
-  curl -LO https://github.com/llvm/llvm-project/archive/$LLVM_TARBALL
-fi
-
-mkdir -p $INSTALL_DIR
-shasum -a 256 $LLVM_TARBALL > $INSTALL_DIR/llvm_tarball_checksum.txt
-
 LLVM_DIR="$(realpath ./llvm_src)"
 if ! [ -d llvm_src ]; then
+  if ! [ -f $LLVM_TARBALL ]; then
+    curl -LO https://github.com/llvm/llvm-project/archive/$LLVM_TARBALL
+  fi
+
+  mkdir -p $INSTALL_DIR
+  shasum -a 256 $LLVM_TARBALL > $INSTALL_DIR/llvm_tarball_checksum.txt
+
   mkdir -p llvm_src
   cd llvm_src
   tar xzf ../$LLVM_TARBALL --strip-components=1
