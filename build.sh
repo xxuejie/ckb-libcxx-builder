@@ -27,7 +27,10 @@ fi
 if [ "x$LLVM_PATCH" != "x" ]
 then
   cp -r $LLVM_PATCH/* $LLVM_DIR
-  echo "with patches" >> $INSTALL_DIR/llvm_tarball_checksum.txt
+
+  if [ -f $INSTALL_DIR/llvm_tarball_checksum.txt ]; then
+    echo "with patches" >> $INSTALL_DIR/llvm_tarball_checksum.txt
+  fi
 fi
 
 BASE_CFLAGS="${BASE_CFLAGS:--O3 -g --target=riscv64 -march=rv64imc_zba_zbb_zbc_zbs -fdata-sections -ffunction-sections}"
